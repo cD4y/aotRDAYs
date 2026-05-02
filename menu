@@ -1,0 +1,860 @@
+-- DAY MENU WHITE MODERN FINAL FULL
+-- PART 1 / 4
+-- CORE UI + FRONT LAYER + SYSTEM
+
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local HttpService = game:GetService("HttpService")
+local CoreGui = game:GetService("CoreGui")
+local StarterGui = game:GetService("StarterGui")
+
+local LP = Players.LocalPlayer
+
+pcall(function()
+	if CoreGui:FindFirstChild("DAYMENU") then
+		CoreGui.DAYMENU:Destroy()
+	end
+	if LP.PlayerGui:FindFirstChild("DAYMENU") then
+		LP.PlayerGui.DAYMENU:Destroy()
+	end
+end)
+
+---------------------------------------------------
+-- FOLDER
+---------------------------------------------------
+local Folder = "DAYMENU"
+
+if makefolder and not isfolder(Folder) then
+	makefolder(Folder)
+end
+
+---------------------------------------------------
+-- COLORS
+---------------------------------------------------
+local C = {
+	bg = Color3.fromRGB(244,244,244),
+	panel = Color3.fromRGB(255,255,255),
+	side = Color3.fromRGB(239,239,239),
+	text = Color3.fromRGB(20,20,20),
+	sub = Color3.fromRGB(130,130,130),
+	accent = Color3.fromRGB(50,120,255),
+	active = Color3.fromRGB(225,235,255),
+	stroke = Color3.fromRGB(228,228,228),
+	success = Color3.fromRGB(60,180,90),
+	error = Color3.fromRGB(220,70,70),
+	warn = Color3.fromRGB(255,170,60)
+}
+
+---------------------------------------------------
+-- HELPERS
+---------------------------------------------------
+local function New(class,parent)
+	local x = Instance.new(class)
+	x.Parent = parent
+	return x
+end
+
+local function Corner(obj,r)
+	local c = Instance.new("UICorner")
+	c.CornerRadius = UDim.new(0,r)
+	c.Parent = obj
+end
+
+local function Stroke(obj,col)
+	local s = Instance.new("UIStroke")
+	s.Color = col or C.stroke
+	s.Thickness = 1
+	s.Parent = obj
+end
+
+local function Tween(obj,props,t)
+	return TweenService:Create(
+		obj,
+		TweenInfo.new(t or .22,Enum.EasingStyle.Sine,Enum.EasingDirection.Out),
+		props
+	)
+end
+
+---------------------------------------------------
+-- GUI FRONT LAYER
+---------------------------------------------------
+local ParentUI = CoreGui
+
+pcall(function()
+	if gethui then
+		ParentUI = gethui()
+	end
+end)
+
+local gui = New("ScreenGui",ParentUI)
+gui.Name = "DAYMENU"
+gui.ResetOnSpawn = false
+gui.IgnoreGuiInset = true
+gui.DisplayOrder = 999999
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+
+pcall(function()
+	if syn and syn.protect_gui then
+		syn.protect_gui(gui)
+	end
+end)
+
+pcall(function()
+	StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList,false)
+end)
+
+---------------------------------------------------
+-- FLOAT BUTTON
+---------------------------------------------------
+local OpenBtn = New("TextButton",gui)
+OpenBtn.Size = UDim2.new(0,54,0,34)
+OpenBtn.Position = UDim2.new(0,-60,0.5,-17)
+OpenBtn.Text = "DAY"
+OpenBtn.Font = Enum.Font.GothamBold
+OpenBtn.TextSize = 14
+OpenBtn.TextColor3 = C.text
+OpenBtn.BackgroundColor3 = C.panel
+OpenBtn.Visible = false
+OpenBtn.ZIndex = 999999
+Corner(OpenBtn,999)
+Stroke(OpenBtn)
+
+---------------------------------------------------
+-- MAIN
+---------------------------------------------------
+local Main = New("Frame",gui)
+Main.Size = UDim2.new(0,620,0,410)
+Main.Position = UDim2.new(0.5,-310,0.5,-205)
+Main.BackgroundColor3 = C.bg
+Main.Visible = false
+Main.ZIndex = 999999
+Corner(Main,16)
+Stroke(Main)
+
+local Scale = New("UIScale",Main)
+Scale.Scale = .92
+
+---------------------------------------------------
+-- HEADER
+---------------------------------------------------
+local Header = New("Frame",Main)
+Header.Size = UDim2.new(1,0,0,42)
+Header.BackgroundColor3 = C.panel
+Header.ZIndex = 999999
+Corner(Header,16)
+
+local Title = New("TextLabel",Header)
+Title.Size = UDim2.new(1,0,1,0)
+Title.BackgroundTransparency = 1
+Title.Text = "DAY MENU"
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 15
+Title.TextColor3 = C.text
+Title.ZIndex = 999999
+
+local Close = New("TextButton",Header)
+Close.Size = UDim2.new(0,30,0,30)
+Close.Position = UDim2.new(1,-36,0.5,-15)
+Close.Text = "✕"
+Close.Font = Enum.Font.GothamBold
+Close.TextSize = 13
+Close.TextColor3 = C.text
+Close.BackgroundColor3 = C.bg
+Close.ZIndex = 999999
+Corner(Close,8)
+
+---------------------------------------------------
+-- SIDEBAR
+---------------------------------------------------
+local Side = New("Frame",Main)
+Side.Position = UDim2.new(0,0,0,42)
+Side.Size = UDim2.new(0,150,1,-42)
+Side.BackgroundColor3 = C.side
+Side.ZIndex = 999999
+Corner(Side,14)
+
+local SLayout = New("UIListLayout",Side)
+SLayout.Padding = UDim.new(0,6)
+SLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+---------------------------------------------------
+-- CONTENT
+---------------------------------------------------
+local Content = New("Frame",Main)
+Content.Position = UDim2.new(0,155,0,47)
+Content.Size = UDim2.new(1,-165,1,-57)
+Content.BackgroundColor3 = C.panel
+Content.ZIndex = 999999
+Corner(Content,14)
+Stroke(Content)
+
+local TopTitle = New("TextLabel",Content)
+TopTitle.Size = UDim2.new(1,-20,0,28)
+TopTitle.Position = UDim2.new(0,12,0,8)
+TopTitle.BackgroundTransparency = 1
+TopTitle.Text = "MAIN"
+TopTitle.TextXAlignment = Enum.TextXAlignment.Left
+TopTitle.Font = Enum.Font.GothamBold
+TopTitle.TextSize = 16
+TopTitle.TextColor3 = C.accent
+TopTitle.ZIndex = 999999
+
+---------------------------------------------------
+-- TOAST
+---------------------------------------------------
+local ToastHolder = New("Frame",gui)
+ToastHolder.Size = UDim2.new(0,300,1,0)
+ToastHolder.Position = UDim2.new(1,-310,0,10)
+ToastHolder.BackgroundTransparency = 1
+ToastHolder.ZIndex = 999999
+
+local ToastLayout = New("UIListLayout",ToastHolder)
+ToastLayout.Padding = UDim.new(0,8)
+ToastLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+
+function Toast(msg,tp)
+	local col = C.accent
+	if tp=="success" then col=C.success end
+	if tp=="error" then col=C.error end
+	if tp=="warn" then col=C.warn end
+
+	local f = New("Frame",ToastHolder)
+	f.Size = UDim2.new(0,0,0,38)
+	f.BackgroundColor3 = C.panel
+	f.ZIndex = 999999
+	Corner(f,12)
+	Stroke(f,col)
+
+	local t = New("TextLabel",f)
+	t.Size = UDim2.new(1,-12,1,0)
+	t.Position = UDim2.new(0,8,0,0)
+	t.BackgroundTransparency = 1
+	t.Text = msg
+	t.TextXAlignment = Enum.TextXAlignment.Left
+	t.Font = Enum.Font.GothamSemibold
+	t.TextSize = 13
+	t.TextColor3 = C.text
+	t.ZIndex = 999999
+
+	Tween(f,{Size=UDim2.new(0,300,0,38)},.22):Play()
+
+	task.delay(2.4,function()
+		Tween(f,{Size=UDim2.new(0,0,0,38)},.2):Play()
+		task.wait(.22)
+		f:Destroy()
+	end)
+end
+
+-- DAY MENU WHITE MODERN FINAL FULL
+-- PART 2 / 4
+-- KEY SYSTEM + TAB SYSTEM + OPEN CLOSE + DRAG
+
+---------------------------------------------------
+-- KEY SYSTEM
+---------------------------------------------------
+local Verified = false
+local ToggleKey = Enum.KeyCode.K
+local KeyFile = Folder.."/key.txt"
+
+pcall(function()
+	if isfile and isfile(KeyFile) then
+		if readfile(KeyFile) == "verified" then
+			Verified = true
+		end
+	end
+end)
+
+---------------------------------------------------
+-- KEY FRAME
+---------------------------------------------------
+local KeyFrame = New("Frame",gui)
+KeyFrame.Size = UDim2.new(0,290,0,175)
+KeyFrame.Position = UDim2.new(0.5,-145,0.5,-88)
+KeyFrame.BackgroundColor3 = C.panel
+KeyFrame.ZIndex = 999999
+Corner(KeyFrame,14)
+Stroke(KeyFrame)
+
+local KTitle = New("TextLabel",KeyFrame)
+KTitle.Size = UDim2.new(1,0,0,34)
+KTitle.Position = UDim2.new(0,0,0,10)
+KTitle.BackgroundTransparency = 1
+KTitle.Text = "KEY VERIFICATION"
+KTitle.Font = Enum.Font.GothamBold
+KTitle.TextSize = 15
+KTitle.TextColor3 = C.text
+KTitle.ZIndex = 999999
+
+local KeyBox = New("TextBox",KeyFrame)
+KeyBox.Size = UDim2.new(1,-24,0,38)
+KeyBox.Position = UDim2.new(0,12,0,56)
+KeyBox.PlaceholderText = "Enter key : day"
+KeyBox.Text = ""
+KeyBox.ClearTextOnFocus = false
+KeyBox.TextEditable = true
+KeyBox.MultiLine = false
+KeyBox.Font = Enum.Font.Gotham
+KeyBox.TextSize = 14
+KeyBox.TextColor3 = C.text
+KeyBox.BackgroundColor3 = C.bg
+KeyBox.ZIndex = 999999
+Corner(KeyBox,10)
+Stroke(KeyBox)
+
+local Enter = New("TextButton",KeyFrame)
+Enter.Size = UDim2.new(1,-24,0,38)
+Enter.Position = UDim2.new(0,12,0,108)
+Enter.Text = "ENTER"
+Enter.Font = Enum.Font.GothamBold
+Enter.TextSize = 14
+Enter.TextColor3 = Color3.new(1,1,1)
+Enter.BackgroundColor3 = C.accent
+Enter.ZIndex = 999999
+Corner(Enter,10)
+
+---------------------------------------------------
+-- MENU OPEN CLOSE
+---------------------------------------------------
+local function OpenMenu()
+	Main.Visible = true
+	Main.BackgroundTransparency = 1
+	Scale.Scale = .92
+
+	Tween(Main,{BackgroundTransparency=0},.2):Play()
+	Tween(Scale,{Scale=1},.22):Play()
+
+	OpenBtn.Visible = false
+	Toast("Menu Opened","success")
+end
+
+local function CloseMenu()
+	Tween(Main,{BackgroundTransparency=1},.18):Play()
+	Tween(Scale,{Scale=.92},.18):Play()
+
+	task.delay(.2,function()
+		Main.Visible = false
+		OpenBtn.Visible = true
+		Tween(OpenBtn,{Position=UDim2.new(0,8,0.5,-17)},.2):Play()
+	end)
+end
+
+local function ToggleMenu()
+	if not Verified then return end
+
+	if Main.Visible then
+		CloseMenu()
+	else
+		OpenMenu()
+	end
+end
+
+---------------------------------------------------
+-- VERIFY
+---------------------------------------------------
+local function Verify()
+	local txt = KeyBox.Text:lower():gsub("%s+","")
+
+	if txt == "day" then
+		Verified = true
+
+		pcall(function()
+			if writefile then
+				writefile(KeyFile,"verified")
+			end
+		end)
+
+		Toast("Key Accepted","success")
+
+		Tween(KeyFrame,{Size=UDim2.new(0,290,0,0)},.2):Play()
+		task.wait(.22)
+
+		KeyFrame.Visible = false
+		OpenMenu()
+	else
+		KeyBox.Text = ""
+		Toast("Wrong Key","error")
+		task.wait(.1)
+		KeyBox:CaptureFocus()
+	end
+end
+
+---------------------------------------------------
+-- TAB SYSTEM
+---------------------------------------------------
+local Pages = {}
+local CurrentTab = nil
+
+function SwitchTab(name)
+	local data = Pages[name]
+	if not data then return end
+
+	for _,v in pairs(Pages) do
+		v.Page.Visible = false
+		v.Button.BackgroundColor3 = C.side
+		v.Button.TextColor3 = C.sub
+	end
+
+	data.Page.Visible = true
+	data.Button.BackgroundColor3 = C.active
+	data.Button.TextColor3 = C.text
+
+	TopTitle.Text = string.upper(name)
+	CurrentTab = name
+end
+
+function CreateTab(name)
+	local Btn = New("TextButton",Side)
+	Btn.Size = UDim2.new(1,-12,0,38)
+	Btn.Text = name
+	Btn.Font = Enum.Font.GothamSemibold
+	Btn.TextSize = 14
+	Btn.TextColor3 = C.sub
+	Btn.BackgroundColor3 = C.side
+	Btn.ZIndex = 999999
+	Corner(Btn,10)
+
+	local Page = New("ScrollingFrame",Content)
+	Page.Position = UDim2.new(0,10,0,42)
+	Page.Size = UDim2.new(1,-20,1,-52)
+	Page.BackgroundTransparency = 1
+	Page.BorderSizePixel = 0
+	Page.ScrollBarThickness = 3
+	Page.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	Page.CanvasSize = UDim2.new(0,0,0,0)
+	Page.Visible = false
+	Page.ZIndex = 999999
+
+	local Layout = New("UIListLayout",Page)
+	Layout.Padding = UDim.new(0,8)
+
+	Pages[name] = {
+		Button = Btn,
+		Page = Page
+	}
+
+	Btn.MouseButton1Click:Connect(function()
+		SwitchTab(name)
+	end)
+
+	return Page
+end
+
+---------------------------------------------------
+-- CREATE TABS
+---------------------------------------------------
+MainTab = CreateTab("Main")
+FarmTab = CreateTab("Farm")
+MiscTab = CreateTab("Misc")
+SettingsTab = CreateTab("Settings")
+
+SwitchTab("Main")
+
+---------------------------------------------------
+-- EVENTS
+---------------------------------------------------
+Close.MouseButton1Click:Connect(CloseMenu)
+
+OpenBtn.MouseButton1Click:Connect(function()
+	ToggleMenu()
+end)
+
+Enter.MouseButton1Click:Connect(Verify)
+
+KeyBox.FocusLost:Connect(function(enterPressed)
+	if enterPressed then
+		Verify()
+	end
+end)
+
+UIS.InputBegan:Connect(function(input,gpe)
+	if gpe then return end
+
+	if input.KeyCode == ToggleKey then
+		ToggleMenu()
+	end
+end)
+
+---------------------------------------------------
+-- DRAG
+---------------------------------------------------
+local Drag = false
+local DragStart
+local StartPos
+
+Header.InputBegan:Connect(function(i)
+	if i.UserInputType == Enum.UserInputType.MouseButton1 then
+		Drag = true
+		DragStart = i.Position
+		StartPos = Main.Position
+	end
+end)
+
+UIS.InputChanged:Connect(function(i)
+	if Drag and i.UserInputType == Enum.UserInputType.MouseMovement then
+		local delta = i.Position - DragStart
+
+		Main.Position = UDim2.new(
+			StartPos.X.Scale,
+			StartPos.X.Offset + delta.X,
+			StartPos.Y.Scale,
+			StartPos.Y.Offset + delta.Y
+		)
+	end
+end)
+
+UIS.InputEnded:Connect(function(i)
+	if i.UserInputType == Enum.UserInputType.MouseButton1 then
+		Drag = false
+	end
+end)
+
+---------------------------------------------------
+-- AUTO LOGIN
+---------------------------------------------------
+task.spawn(function()
+	task.wait(.4)
+
+	if Verified then
+		KeyFrame.Visible = false
+		OpenMenu()
+	else
+		task.wait(.2)
+		KeyBox:CaptureFocus()
+	end
+end)
+
+-- DAY MENU WHITE MODERN FINAL FULL
+-- PART 3 / 4
+-- UI COMPONENTS + MAIN TAB + FARM TAB + MISC TAB
+
+---------------------------------------------------
+-- UI HELPERS
+---------------------------------------------------
+function AddSection(parent,text)
+	local L = New("TextLabel",parent)
+	L.Size = UDim2.new(1,-6,0,24)
+	L.BackgroundTransparency = 1
+	L.Text = text
+	L.TextXAlignment = Enum.TextXAlignment.Left
+	L.Font = Enum.Font.GothamBold
+	L.TextSize = 13
+	L.TextColor3 = C.sub
+	L.ZIndex = 999999
+	return L
+end
+
+function AddLabel(parent,text)
+	local L = New("TextLabel",parent)
+	L.Size = UDim2.new(1,-6,0,28)
+	L.BackgroundColor3 = C.bg
+	L.Text = text
+	L.TextXAlignment = Enum.TextXAlignment.Left
+	L.Font = Enum.Font.GothamSemibold
+	L.TextSize = 13
+	L.TextColor3 = C.text
+	L.ZIndex = 999999
+	Corner(L,10)
+	Stroke(L)
+	return L
+end
+
+function AddButton(parent,text,callback)
+	local B = New("TextButton",parent)
+	B.Size = UDim2.new(1,-6,0,36)
+	B.Text = text
+	B.Font = Enum.Font.GothamBold
+	B.TextSize = 13
+	B.TextColor3 = Color3.new(1,1,1)
+	B.BackgroundColor3 = C.accent
+	B.ZIndex = 999999
+	Corner(B,10)
+
+	B.MouseButton1Click:Connect(function()
+		Tween(B,{BackgroundTransparency=.2},.08):Play()
+		task.wait(.08)
+		Tween(B,{BackgroundTransparency=0},.08):Play()
+
+		if callback then
+			callback()
+		end
+	end)
+
+	return B
+end
+
+function AddToggle(parent,text,default,callback)
+	local State = default
+
+	local Holder = New("Frame",parent)
+	Holder.Size = UDim2.new(1,-6,0,38)
+	Holder.BackgroundColor3 = C.bg
+	Holder.ZIndex = 999999
+	Corner(Holder,10)
+	Stroke(Holder)
+
+	local T = New("TextLabel",Holder)
+	T.Size = UDim2.new(1,-60,1,0)
+	T.Position = UDim2.new(0,10,0,0)
+	T.BackgroundTransparency = 1
+	T.Text = text
+	T.TextXAlignment = Enum.TextXAlignment.Left
+	T.Font = Enum.Font.GothamSemibold
+	T.TextSize = 13
+	T.TextColor3 = C.text
+	T.ZIndex = 999999
+
+	local Track = New("Frame",Holder)
+	Track.Size = UDim2.new(0,42,0,22)
+	Track.Position = UDim2.new(1,-52,0.5,-11)
+	Track.BackgroundColor3 = State and C.accent or C.side
+	Track.ZIndex = 999999
+	Corner(Track,99)
+
+	local Knob = New("Frame",Track)
+	Knob.Size = UDim2.new(0,18,0,18)
+	Knob.Position = UDim2.new(0,State and 22 or 2,0.5,-9)
+	Knob.BackgroundColor3 = Color3.new(1,1,1)
+	Knob.ZIndex = 999999
+	Corner(Knob,99)
+
+	local Click = New("TextButton",Holder)
+	Click.Size = UDim2.new(1,0,1,0)
+	Click.Text = ""
+	Click.BackgroundTransparency = 1
+	Click.ZIndex = 999999
+
+	local function Set(v)
+		State = v
+		Tween(Track,{BackgroundColor3=v and C.accent or C.side},.16):Play()
+		Tween(Knob,{Position=UDim2.new(0,v and 22 or 2,0.5,-9)},.16):Play()
+
+		if callback then
+			callback(v)
+		end
+	end
+
+	Click.MouseButton1Click:Connect(function()
+		Set(not State)
+	end)
+
+	return {
+		Set = Set,
+		Get = function()
+			return State
+		end
+	}
+end
+
+---------------------------------------------------
+-- MAIN TAB
+---------------------------------------------------
+AddSection(MainTab,"Welcome")
+
+AddLabel(MainTab,"DAY MENU FINAL FULL")
+AddLabel(MainTab,"White Modern Premium UI")
+AddLabel(MainTab,"Press K to Open / Close")
+
+AddButton(MainTab,"Copy Discord",function()
+	setclipboard("discord.gg/daymenu")
+	Toast("Discord Copied","success")
+end)
+
+---------------------------------------------------
+-- FARM TAB
+---------------------------------------------------
+AddSection(FarmTab,"Coming Soon")
+---------------------------------------------------
+-- MISC TAB
+---------------------------------------------------
+AddSection(MiscTab,"Utility")
+
+AddButton(MiscTab,"Rejoin Server",function()
+	game:GetService("TeleportService"):Teleport(game.PlaceId,LP)
+end)
+
+AddButton(MiscTab,"Reset Character",function()
+	LP.Character:BreakJoints()
+end)
+
+AddButton(MiscTab,"Destroy UI",function()
+	gui:Destroy()
+end)
+
+-- DAY MENU WHITE MODERN FINAL FULL
+-- PART 4 / 4
+-- SETTINGS TAB + CONFIG SYSTEM + AUTO LOAD + STARTUP
+
+---------------------------------------------------
+-- SETTINGS TAB
+---------------------------------------------------
+AddSection(SettingsTab,"Config Manager")
+
+local ConfigName = "default"
+local AutoLoad = false
+local ConfigFolder = Folder.."/configs"
+
+pcall(function()
+	if makefolder and not isfolder(ConfigFolder) then
+		makefolder(ConfigFolder)
+	end
+end)
+
+local StatusLabel = AddLabel(SettingsTab,"Status : Idle")
+
+---------------------------------------------------
+-- CONFIG INPUT
+---------------------------------------------------
+local BoxHolder = New("Frame",SettingsTab)
+BoxHolder.Size = UDim2.new(1,-6,0,38)
+BoxHolder.BackgroundColor3 = C.bg
+BoxHolder.ZIndex = 999999
+Corner(BoxHolder,10)
+Stroke(BoxHolder)
+
+local ConfigBox = New("TextBox",BoxHolder)
+ConfigBox.Size = UDim2.new(1,-12,1,0)
+ConfigBox.Position = UDim2.new(0,8,0,0)
+ConfigBox.BackgroundTransparency = 1
+ConfigBox.PlaceholderText = "Config name..."
+ConfigBox.Text = "default"
+ConfigBox.ClearTextOnFocus = false
+ConfigBox.Font = Enum.Font.GothamSemibold
+ConfigBox.TextSize = 13
+ConfigBox.TextColor3 = C.text
+ConfigBox.TextXAlignment = Enum.TextXAlignment.Left
+ConfigBox.ZIndex = 999999
+
+---------------------------------------------------
+-- SAVE CONFIG
+---------------------------------------------------
+AddButton(SettingsTab,"Save Config",function()
+	local name = ConfigBox.Text ~= "" and ConfigBox.Text or "default"
+	local path = ConfigFolder.."/"..name..".txt"
+
+	pcall(function()
+		if writefile then
+			writefile(path,HttpService:JSONEncode({
+				name = name,
+				time = os.time()
+			}))
+		end
+	end)
+
+	StatusLabel.Text = "Status : Saved "..name
+	Toast("Saved Config : "..name,"success")
+end)
+
+---------------------------------------------------
+-- LOAD CONFIG
+---------------------------------------------------
+AddButton(SettingsTab,"Load Config",function()
+	local name = ConfigBox.Text ~= "" and ConfigBox.Text or "default"
+	local path = ConfigFolder.."/"..name..".txt"
+
+	if isfile and isfile(path) then
+		StatusLabel.Text = "Status : Loaded "..name
+		Toast("Loaded Config : "..name,"success")
+	else
+		StatusLabel.Text = "Status : Config Not Found"
+		Toast("Config Not Found","error")
+	end
+end)
+
+---------------------------------------------------
+-- DELETE CONFIG
+---------------------------------------------------
+AddButton(SettingsTab,"Delete Config",function()
+	local name = ConfigBox.Text ~= "" and ConfigBox.Text or "default"
+	local path = ConfigFolder.."/"..name..".txt"
+
+	pcall(function()
+		if delfile and isfile(path) then
+			delfile(path)
+		end
+	end)
+
+	StatusLabel.Text = "Status : Deleted "..name
+	Toast("Deleted Config : "..name,"warn")
+end)
+
+---------------------------------------------------
+-- AUTO LOAD
+---------------------------------------------------
+AddToggle(SettingsTab,"Auto Load Config",false,function(v)
+	AutoLoad = v
+
+	local save = Folder.."/autoload.txt"
+
+	pcall(function()
+		if writefile then
+			writefile(save,v and "true" or "false")
+		end
+	end)
+
+	Toast("Auto Load : "..tostring(v),"success")
+end)
+
+---------------------------------------------------
+-- LOAD SAVED AUTOLOAD
+---------------------------------------------------
+pcall(function()
+	local save = Folder.."/autoload.txt"
+
+	if isfile and isfile(save) then
+		if readfile(save) == "true" then
+			AutoLoad = true
+		end
+	end
+end)
+
+---------------------------------------------------
+-- KEY ENTER FIX
+---------------------------------------------------
+KeyBox.FocusLost:Connect(function(enterPressed)
+	if enterPressed then
+		Verify()
+	end
+end)
+
+Enter.MouseButton1Click:Connect(function()
+	Verify()
+end)
+
+---------------------------------------------------
+-- AUTO EXECUTE VERIFIED KEY
+---------------------------------------------------
+task.spawn(function()
+	task.wait(.5)
+
+	if Verified then
+		KeyFrame.Visible = false
+		OpenMenu()
+	end
+end)
+
+---------------------------------------------------
+-- AUTO LOAD CONFIG STARTUP
+---------------------------------------------------
+task.spawn(function()
+	task.wait(1)
+
+	if AutoLoad then
+		local path = ConfigFolder.."/default.txt"
+
+		if isfile and isfile(path) then
+			StatusLabel.Text = "Status : Auto Loaded default"
+			Toast("Auto Loaded Config","success")
+		end
+	end
+end)
+
+---------------------------------------------------
+-- DEFAULT TAB
+---------------------------------------------------
+SwitchTab("Main")
+
+---------------------------------------------------
+-- FINAL TOAST
+---------------------------------------------------
+Toast("DAY MENU Loaded","success")
